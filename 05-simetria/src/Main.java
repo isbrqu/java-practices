@@ -26,7 +26,7 @@ public class Main {
         .newDocument();
       createSvg();
       createTree();
-      element = createCircle(1, 1, 1);
+      element = createCircle("1", "1", "0.5");
       tree.appendChild(element);
       Transformer transformer = TransformerFactory
         .newInstance()
@@ -51,14 +51,12 @@ public class Main {
     svg.appendChild(tree);
   }
 
-  private static Element createCircle(int cx, int cy, int r) {
+  private static Element createCircle(String cx, String cy, String r) {
     Element circle = doc.createElementNS(SVG, "circle");
-    circle.setAttribute("cx", Integer.toString(cx));
-    circle.setAttribute("cy", Integer.toString(cy));
-    circle.setAttribute("r", Integer.toString(r));
+    circle.setAttribute("cx", cx);
+    circle.setAttribute("cy", cy);
+    circle.setAttribute("r", r);
     circle.setAttribute("fill", "white");
-    // circle.setAttribute("stroke", "rgb(240, 240, 240)");
-    // circle.setAttribute("stroke-width", "0.5");
     return circle;
   }
 
