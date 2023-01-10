@@ -19,15 +19,13 @@ public class Main {
 
   public static void main(String[] args) {
     try {
-      Element element;
       doc = DocumentBuilderFactory
         .newInstance()
         .newDocumentBuilder()
         .newDocument();
       createSvg();
       createTree();
-      element = createCircle("1", "1", "0.5");
-      tree.appendChild(element);
+      draw();
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
@@ -51,13 +49,35 @@ public class Main {
     svg.appendChild(tree);
   }
 
-  private static Element createCircle(String cx, String cy, String r) {
+  private static Element createCircle(float cx, float cy, float r) {
     Element circle = doc.createElementNS(SVG, "circle");
-    circle.setAttribute("cx", cx);
-    circle.setAttribute("cy", cy);
-    circle.setAttribute("r", r);
+    circle.setAttribute("cx", Float.toString(cx));
+    circle.setAttribute("cy", Float.toString(cy));
+    circle.setAttribute("r", Float.toString(r));
     circle.setAttribute("fill", "white");
     return circle;
+  }
+
+  private static void draw() {
+      Element a, b, c;
+      float RADIO = 10;
+      float DIAMETER = 2 * RADIO;
+      float DISTANCE = 2 * DIAMETER;
+      float y;
+      float x2 = DISTANCE, y2 = DIAMETER;
+      float x1 = x2 - RADIO * 2;
+      float x3 = x2 + RADIO * 2;
+      a = createCircle(x2, y2, RADIO);
+      y = calc(DISTANCE, x2, x1, y2);
+      b = createCircle(x1, y, RADIO);
+      c = createCircle(x3, y, RADIO);
+      tree.appendChild(a);
+      tree.appendChild(b);
+      tree.appendChild(c);
+  }
+
+  private static float calc(float h, float x2, float x1, float y2) {
+    return ((float) Math.sqrt(Math.pow(h, 2) - Math.pow(x2 - x1, 2))) + y2;
   }
 
 }
