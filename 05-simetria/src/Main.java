@@ -25,7 +25,7 @@ public class Main {
         .newDocument();
       createSvg();
       createTree();
-      draw();
+      draw(1);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
@@ -56,6 +56,16 @@ public class Main {
     circle.setAttribute("r", Float.toString(r));
     circle.setAttribute("fill", "white");
     return circle;
+  }
+
+  private static void draw(int height) {
+    Element root;
+    final float RADIO = 10;
+    final float DIAMETER = 2 * RADIO;
+    float x = (float) Math.pow(2, height) * RADIO;
+    float y = DIAMETER;
+    root = createCircle(x, y, RADIO);
+    tree.appendChild(root);
   }
 
   private static void draw() {
