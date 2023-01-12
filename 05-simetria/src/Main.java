@@ -17,6 +17,9 @@ public class Main {
   private static final String SVG = "http://www.w3.org/2000/svg";
   private static final String output = "out/tree.svg";
 
+  private static final float RADIO = 10;
+  private static final float DIAMETER = 2 * RADIO;
+
   public static void main(String[] args) {
     try {
       doc = DocumentBuilderFactory
@@ -25,7 +28,7 @@ public class Main {
         .newDocument();
       createSvg();
       createTree();
-      draw(1);
+      draw(4);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
@@ -49,41 +52,34 @@ public class Main {
     svg.appendChild(tree);
   }
 
-  private static Element createCircle(float cx, float cy, float r) {
+  private static Element createCircle(float cx, float cy, float r, String color) {
     Element circle = doc.createElementNS(SVG, "circle");
     circle.setAttribute("cx", Float.toString(cx));
     circle.setAttribute("cy", Float.toString(cy));
     circle.setAttribute("r", Float.toString(r));
-    circle.setAttribute("fill", "white");
+    circle.setAttribute("fill", color);
     return circle;
   }
 
   private static void draw(int height) {
-    Element root;
-    final float RADIO = 10;
-    final float DIAMETER = 2 * RADIO;
-    float x = (float) Math.pow(2, height) * RADIO;
+    float x = (float) Math.pow(2, height + 1) * RADIO;
     float y = DIAMETER;
-    root = createCircle(x, y, RADIO);
-    tree.appendChild(root);
+    draw(height, x, y, "#fff");
   }
 
-  private static void draw() {
-      Element a, b, c;
-      float RADIO = 10;
-      float DIAMETER = 2 * RADIO;
-      float DISTANCE = 2 * DIAMETER;
-      float y;
-      float x2 = DISTANCE, y2 = DIAMETER;
-      float x1 = x2 - RADIO * 2;
-      float x3 = x2 + RADIO * 2;
-      a = createCircle(x2, y2, RADIO);
-      y = calc(DISTANCE, x2, x1, y2);
-      b = createCircle(x1, y, RADIO);
-      c = createCircle(x3, y, RADIO);
-      tree.appendChild(a);
-      tree.appendChild(b);
-      tree.appendChild(c);
+  private static void draw(int height, float x, float y, String color) {
+    Element root, left, right;
+    root = createCircle(x, y, RADIO, color);
+    tree.appendChild(root);
+    // if (true) return;
+    if (height == 0) return;
+    float margin = (float) Math.pow(2, height) * RADIO;
+    float x1 = x - margin;
+    float y1 = y;
+    draw(height - 1, x1, y1, "#f00");
+    float x2 = x + margin;
+    float y2 = y;
+    draw(height - 1, x2, y2, "#00f");
   }
 
   private static float calc(float h, float x2, float x1, float y2) {
