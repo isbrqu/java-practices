@@ -17,7 +17,7 @@ public class Main {
   private static final String SVG = "http://www.w3.org/2000/svg";
   private static final String output = "out/tree.svg";
 
-  private static final float RADIO = 10;
+  private static final float RADIO = .5f;
   private static final float DIAMETER = 2 * RADIO;
 
   public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class Main {
         .newDocument();
       createSvg();
       createTree();
-      draw(4);
+      draw(2);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
