@@ -72,10 +72,11 @@ public class Main {
   private static void draw(int height) {
     float x = (float) Math.pow(2, height + 1) * RADIO;
     float y = DIAMETER;
-    draw(height, x, y, "#fff");
+    draw(height, x, y);
   }
 
-  private static void draw(int height, float x, float y, String color) {
+  private static void draw(int height, float x, float y) {
+    String color = "#fff";
     Element root, left, right;
     root = createCircle(x, y, RADIO, color);
     tree.appendChild(root);
@@ -83,10 +84,10 @@ public class Main {
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
     float y1 = calculateY(height, x1, x, y);
-    draw(height - 1, x1, y1, "#f00");
+    draw(height - 1, x1, y1);
     float x2 = x + margin;
     float y2 = calculateY(height, x2, x, y);
-    draw(height - 1, x2, y2, "#00f");
+    draw(height - 1, x2, y2);
   }
   
   private static float calculateY(float h, float x1, float x2, float y2) {
