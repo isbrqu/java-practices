@@ -19,6 +19,7 @@ public class Main {
 
   private static final float RADIO = .5f;
   private static final float DIAMETER = 2 * RADIO;
+  private static final int HEIGHT = 3;
 
   public static void main(String[] args) {
     try {
@@ -28,7 +29,7 @@ public class Main {
         .newDocument();
       createSvg();
       createTree();
-      draw(2);
+      draw(HEIGHT);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
@@ -71,19 +72,23 @@ public class Main {
     Element root, left, right;
     root = createCircle(x, y, RADIO, color);
     tree.appendChild(root);
-    // if (true) return;
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
-    float y1 = y;
+    float y1 = calculateY(height, x1, x, y);
     draw(height - 1, x1, y1, "#f00");
     float x2 = x + margin;
-    float y2 = y;
+    float y2 = calculateY(height, x2, x, y);
     draw(height - 1, x2, y2, "#00f");
   }
-
-  private static float calc(float h, float x2, float x1, float y2) {
-    return ((float) Math.sqrt(Math.pow(h, 2) - Math.pow(x2 - x1, 2))) + y2;
+  
+  private static float calculateY(float h, float x1, float x2, float y2) {
+    float hip = (float) Math.pow(2, h) * DIAMETER;
+    float hip2 = (float) Math.pow(hip, 2);
+    float cato = (float) Math.pow(x1 - x2, 2);
+    float sqrt = (float) Math.sqrt(hip2 - cato);
+    float y1 = sqrt + y2;
+    return y1;
   }
 
 }
