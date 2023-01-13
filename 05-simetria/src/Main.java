@@ -30,8 +30,9 @@ public class Main {
       createSvg();
       createTree();
       draw(HEIGHT);
-      String cy = ((Element) tree.getLastChild()).getAttribute("cy");
-      String cx = ((Element) tree.getLastChild()).getAttribute("cx");
+      Element node = (Element) tree.getLastChild().getPreviousSibling();
+      String cx = node.getAttribute("cx");
+      String cy = node.getAttribute("cy");
       String minX = "0", minY = "0", width, height;
       width = Float.toString(Float.parseFloat(cx) + DIAMETER);
       height = Float.toString(Float.parseFloat(cy) + DIAMETER);
@@ -69,6 +70,20 @@ public class Main {
     return circle;
   }
 
+  private static Element createText(float cx, float cy, int num) {
+    String color = "#000";
+    String fontSize = Float.toString(RADIO + RADIO / 2);
+    Element text = doc.createElementNS(SVG, "text");
+    text.setTextContent(Integer.toString(num));
+    text.setAttribute("x", Float.toString(cx));
+    text.setAttribute("y", Float.toString(cy + RADIO / 2 ));
+    text.setAttribute("text-anchor", "middle");
+    // text.setAttribute("alignment-baseline", "middle");
+    text.setAttribute("font-size", fontSize);
+    text.setAttribute("fill", color);
+    return text;
+  }
+
   private static void draw(int height) {
     float x = (float) Math.pow(2, height + 1) * RADIO;
     float y = DIAMETER;
@@ -77,9 +92,11 @@ public class Main {
 
   private static void draw(int height, float x, float y) {
     String color = "#fff";
-    Element root, left, right;
-    root = createCircle(x, y, RADIO, color);
+    Element root = createCircle(x, y, RADIO, color);
+    System.out.println("height: " + height);
+    Element text = createText(x, y, height);
     tree.appendChild(root);
+    tree.appendChild(text);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
