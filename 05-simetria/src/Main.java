@@ -17,9 +17,9 @@ public class Main {
   private static final String SVG = "http://www.w3.org/2000/svg";
   private static final String output = "out/tree.svg";
 
-  private static final float RADIO = .5f;
+  private static final float RADIO = 1;
   private static final float DIAMETER = 2 * RADIO;
-  private static final int HEIGHT = 3;
+  private static final int HEIGHT = 4;
 
   public static void main(String[] args) {
     try {
@@ -30,6 +30,13 @@ public class Main {
       createSvg();
       createTree();
       draw(HEIGHT);
+      String cy = ((Element) tree.getLastChild()).getAttribute("cy");
+      String cx = ((Element) tree.getLastChild()).getAttribute("cx");
+      String minX = "0", minY = "0", width, height;
+      width = Float.toString(Float.parseFloat(cx) + DIAMETER);
+      height = Float.toString(Float.parseFloat(cy) + DIAMETER);
+      String viewBox = minX + " " + minY + " " + width + " " + height;
+      svg.setAttribute("viewBox", viewBox);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
