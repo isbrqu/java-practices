@@ -21,6 +21,7 @@ public class Main {
 
   private static final float RADIO = .5f;
   private static final float DIAMETER = 2 * RADIO;
+  private static final float HALF = RADIO / 2;
   private static final int HEIGHT = 3;
 
   public static void
@@ -47,7 +48,6 @@ public class Main {
         .map(number -> Float.toString(number))
         .reduce("", (result, value)
             -> result.equals("") ? value : result + " " + value);
-      System.out.println(viewBox);
       svg.setAttribute("viewBox", viewBox);
       draw(HEIGHT, x, y);
       Transformer transformer = TransformerFactory
@@ -109,18 +109,36 @@ public class Main {
     tree.appendChild(root);
     tree.appendChild(text);
     if (height == 0) return;
+    float xl, yl;
+    xl = x - HALF;
+    yl = calculateY(xl, x, y);
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
     float y1 = calculateY(height, x1, x, y);
+    Element line1 = createLine(xl, yl, x1, y1);
+    tree.appendChild(line1);
     draw(height - 1, x1, y1);
+    xl = x + HALF;
+    yl = calculateY(xl, x, y);
     float x2 = x + margin;
     float y2 = calculateY(height, x2, x, y);
+    Element line2 = createLine(xl, yl, x2, y2);
+    tree.appendChild(line2);
     draw(height - 1, x2, y2);
   }
   
   private static float
   calculateY(float h, float x1, float x2, float y2) {
     float hypotenuse = (float) Math.pow(2, h) * DIAMETER;
+    float opposite = x1 - x2;
+    float adjacent = calculateLeg(hypotenuse, opposite);
+    float y1 = adjacent + y2;
+    return y1;
+  }
+
+  private static float
+  calculateY(float x1, float x2, float y2) {
+    float hypotenuse = RADIO;
     float opposite = x1 - x2;
     float adjacent = calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;
@@ -157,8 +175,8 @@ public class Main {
     line.setAttribute("y1", Float.toString(y1));
     line.setAttribute("x2", Float.toString(x2));
     line.setAttribute("y2", Float.toString(y2));
-    line.setAttribute("stroke", "#000");
-    line.setAttribute("stroke-width", "1");
+    line.setAttribute("stroke", "#fff");
+    line.setAttribute("stroke-width", Float.toString(HALF / 2));
     return line;
   }
 
