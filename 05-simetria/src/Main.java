@@ -21,7 +21,8 @@ public class Main {
   private static final float DIAMETER = 2 * RADIO;
   private static final int HEIGHT = 3;
 
-  public static void main(String[] args) {
+  public static void
+  main(String[] args) {
     try {
       doc = DocumentBuilderFactory
         .newInstance()
@@ -50,18 +51,21 @@ public class Main {
     }
   }
 
-  private static void createSvg() {
+  private static void
+  createSvg() {
     svg = doc.createElementNS(SVG, "svg");
     svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
     doc.appendChild(svg);
   }
   
-  private static void createTree() {
+  private static void
+  createTree() {
     tree = doc.createElementNS(SVG, "g");
     svg.appendChild(tree);
   }
 
-  private static Element createCircle(float cx, float cy, float r, String color) {
+  private static Element
+  createCircle(float cx, float cy, float r, String color) {
     Element circle = doc.createElementNS(SVG, "circle");
     circle.setAttribute("cx", Float.toString(cx));
     circle.setAttribute("cy", Float.toString(cy));
@@ -70,7 +74,8 @@ public class Main {
     return circle;
   }
 
-  private static Element createText(float cx, float cy, int num) {
+  private static Element
+  createText(float cx, float cy, int num) {
     String color = "#000";
     String fontSize = Float.toString(RADIO + RADIO / 2);
     Element text = doc.createElementNS(SVG, "text");
@@ -84,13 +89,15 @@ public class Main {
     return text;
   }
 
-  private static void draw(int height) {
+  private static void
+  draw(int height) {
     float x = (float) Math.pow(2, height + 1) * RADIO;
     float y = DIAMETER;
     draw(height, x, y);
   }
 
-  private static void draw(int height, float x, float y) {
+  private static void
+  draw(int height, float x, float y) {
     String color = "#fff";
     Element root = createCircle(x, y, RADIO, color);
     System.out.println("height: " + height);
@@ -107,7 +114,8 @@ public class Main {
     draw(height - 1, x2, y2);
   }
   
-  private static float calculateY(float h, float x1, float x2, float y2) {
+  private static float
+  calculateY(float h, float x1, float x2, float y2) {
     float hip = (float) Math.pow(2, h) * DIAMETER;
     float hip2 = (float) Math.pow(hip, 2);
     float cato = (float) Math.pow(x1 - x2, 2);
