@@ -17,9 +17,9 @@ public class Main {
   private static final String SVG = "http://www.w3.org/2000/svg";
   private static final String output = "out/tree.svg";
 
-  private static final float RADIO = 1;
+  private static final float RADIO = .5f;
   private static final float DIAMETER = 2 * RADIO;
-  private static final int HEIGHT = 4;
+  private static final int HEIGHT = 3;
 
   public static void main(String[] args) {
     try {
@@ -114,6 +114,18 @@ public class Main {
     float sqrt = (float) Math.sqrt(hip2 - cato);
     float y1 = sqrt + y2;
     return y1;
+  }
+
+  public static Element
+  createLine(float x1, float y1, float x2, float y2) {
+    Element line = doc.createElementNS(SVG, "line");
+    line.setAttribute("x1", Float.toString(x1));
+    line.setAttribute("y1", Float.toString(y1));
+    line.setAttribute("x2", Float.toString(x2));
+    line.setAttribute("y2", Float.toString(y2));
+    line.setAttribute("stroke", "#000");
+    line.setAttribute("stroke-width", "1");
+    return line;
   }
 
 }
