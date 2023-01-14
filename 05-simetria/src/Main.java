@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.lang.Math;
 import java.util.HashMap;
+import java.util.Arrays;
 
 public class Main {
 
@@ -33,18 +34,22 @@ public class Main {
       createTree();
       float x = (float) Math.pow(2, HEIGHT + 1) * RADIO;
       float y = DIAMETER;
-      HashMap<String,String> coordinates
+      HashMap<String,Float> coordinates
         = calculateCoordinates(HEIGHT, x, y);
       calculateCoordinates(HEIGHT, x, y);
-      draw(HEIGHT, x, y);
-      Element node = (Element) tree.getLastChild().getPreviousSibling();
-      String cx = coordinates.get("cx");
-      String cy = coordinates.get("cy");
-      String minX = "0", minY = "0", width, height;
-      width = Float.toString(Float.parseFloat(cx) + DIAMETER);
-      height = Float.toString(Float.parseFloat(cy) + DIAMETER);
-      String viewBox = minX + " " + minY + " " + width + " " + height;
+      float minX = 0;
+      float minY = 0;
+      float width = coordinates.get("cx") + DIAMETER;
+      float height = coordinates.get("cy") + DIAMETER;
+      Float[] numbers = {minX, minY, width, height};
+      String viewBox = Arrays
+        .stream(numbers)
+        .map(number -> Float.toString(number))
+        .reduce("", (result, value)
+            -> result.equals("") ? value : result + " " + value);
+      System.out.println(viewBox);
       svg.setAttribute("viewBox", viewBox);
+      draw(HEIGHT, x, y);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
@@ -132,15 +137,16 @@ public class Main {
 
   private static HashMap
   calculateCoordinates(float height, float x2, float y2) {
-    HashMap<String,String> coordinates = new HashMap<String,String>();
+    HashMap<String,Float> coordinates
+      = new HashMap<String,Float>();
     float nextPower = (float) Math.pow(2, height + 1);
     float x1 = (nextPower - 1) * DIAMETER;
     float hypotenuse = (nextPower - 2) * DIAMETER;
     float opposite = x1 - x2;
     float adjacent = calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;
-    coordinates.put("cx", Float.toString(x1));
-    coordinates.put("cy", Float.toString(y1));
+    coordinates.put("cx", x1);
+    coordinates.put("cy", y1);
     return coordinates;
   }
 
