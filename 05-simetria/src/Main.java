@@ -8,6 +8,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.lang.Math;
+import java.util.HashMap;
 
 public class Main {
 
@@ -32,10 +33,13 @@ public class Main {
       createTree();
       float x = (float) Math.pow(2, HEIGHT + 1) * RADIO;
       float y = DIAMETER;
+      HashMap<String,String> coordinates
+        = calculateCoordinates(HEIGHT, x, y);
+      calculateCoordinates(HEIGHT, x, y);
       draw(HEIGHT, x, y);
       Element node = (Element) tree.getLastChild().getPreviousSibling();
-      String cx = node.getAttribute("cx");
-      String cy = node.getAttribute("cy");
+      String cx = coordinates.get("cx");
+      String cy = coordinates.get("cy");
       String minX = "0", minY = "0", width, height;
       width = Float.toString(Float.parseFloat(cx) + DIAMETER);
       height = Float.toString(Float.parseFloat(cy) + DIAMETER);
@@ -124,6 +128,20 @@ public class Main {
     float leg2 = (float) Math.pow(leg, 2);
     float result = (float) Math.sqrt(hypotenuse2 - leg2);
     return result;
+  }
+
+  private static HashMap
+  calculateCoordinates(float height, float x2, float y2) {
+    HashMap<String,String> coordinates = new HashMap<String,String>();
+    float nextPower = (float) Math.pow(2, height + 1);
+    float x1 = (nextPower - 1) * DIAMETER;
+    float hypotenuse = (nextPower - 2) * DIAMETER;
+    float opposite = x1 - x2;
+    float adjacent = calculateLeg(hypotenuse, opposite);
+    float y1 = adjacent + y2;
+    coordinates.put("cx", Float.toString(x1));
+    coordinates.put("cy", Float.toString(y1));
+    return coordinates;
   }
 
   public static Element
