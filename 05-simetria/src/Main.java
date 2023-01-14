@@ -30,7 +30,9 @@ public class Main {
         .newDocument();
       createSvg();
       createTree();
-      draw(HEIGHT);
+      float x = (float) Math.pow(2, HEIGHT + 1) * RADIO;
+      float y = DIAMETER;
+      draw(HEIGHT, x, y);
       Element node = (Element) tree.getLastChild().getPreviousSibling();
       String cx = node.getAttribute("cx");
       String cy = node.getAttribute("cy");
@@ -87,13 +89,6 @@ public class Main {
     text.setAttribute("font-size", fontSize);
     text.setAttribute("fill", color);
     return text;
-  }
-
-  private static void
-  draw(int height) {
-    float x = (float) Math.pow(2, height + 1) * RADIO;
-    float y = DIAMETER;
-    draw(height, x, y);
   }
 
   private static void
