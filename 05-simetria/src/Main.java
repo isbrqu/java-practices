@@ -111,12 +111,19 @@ public class Main {
   
   private static float
   calculateY(float h, float x1, float x2, float y2) {
-    float hip = (float) Math.pow(2, h) * DIAMETER;
-    float hip2 = (float) Math.pow(hip, 2);
-    float cato = (float) Math.pow(x1 - x2, 2);
-    float sqrt = (float) Math.sqrt(hip2 - cato);
-    float y1 = sqrt + y2;
+    float hypotenuse = (float) Math.pow(2, h) * DIAMETER;
+    float opposite = x1 - x2;
+    float adjacent = calculateLeg(hypotenuse, opposite);
+    float y1 = adjacent + y2;
     return y1;
+  }
+
+  private static float
+  calculateLeg(float hypotenuse, float leg) {
+    float hypotenuse2 = (float) Math.pow(hypotenuse, 2);
+    float leg2 = (float) Math.pow(leg, 2);
+    float result = (float) Math.sqrt(hypotenuse2 - leg2);
+    return result;
   }
 
   public static Element
