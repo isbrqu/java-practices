@@ -7,7 +7,7 @@ class Main {
     String[] alphabet = {
       "1", "0"
     };
-    Object[] variations = variations(alphabet);
+    Object[] variations = variations(alphabet, 1);
     for (Object variation : variations) {
       String[] v = (String[]) variation;
       System.out.println(Arrays.toString(v));
@@ -41,11 +41,10 @@ class Main {
     }
   }
   
-  public static Object[] variations(String[] alphabet) {
+  public static Object[] variations(String[] alphabet, int length) {
     LinkedList<Integer> contador = new LinkedList<Integer>();
     LinkedList<String[]> result = new LinkedList<String[]>();
     String[] variation;
-    int length = 4;
     int base = alphabet.length;
     int i = 0;
     int v = 0;
