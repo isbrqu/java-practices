@@ -1,5 +1,4 @@
 import java.lang.Math;
-// import Secu.Foo;
 
 class Main {
 
